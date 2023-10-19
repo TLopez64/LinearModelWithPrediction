@@ -42,14 +42,17 @@ Model1 = lm(SIMS~ARM, data = data)
 print(summary(Model1))
 ```
 
-
-
 ```{r}
 plot(SIMS~ARM,data=data)
 abline(Model1, col="blue")
 ```
 
 The line in the data shows the best linear fit. For an increase of 1 in arm strength, sim score increases by 0.0545.
+
+```{r}
+newdata = data.frame(ARM = 88, GRIP = 94)
+predict.lm(Model1, newdata, interval='prediction')
+```
 
 ## Model2
 
@@ -63,7 +66,7 @@ Find an equation that expresses SIMS as a function of GRIP
 plot(SIMS~GRIP,data=data)
 ```
 
-This graph is shows as grip strength increases, the sim score increases as well. There is a positive trend between arm strength and sim score.
+This graph is shows as grip strength increases, the sim score increases as well. There is a positive trend between grip strength and sim score.
 
 ### Numerical Results
 
@@ -87,6 +90,11 @@ abline(Model2, col="blue")
 
 The line in the data shows the best linear fit. For an increase of 1 in grip strength, sim score increases by 0.0454.
 
+```{r}
+newdata = data.frame(ARM = 88, GRIP = 94)
+predict.lm(Model2, newdata, interval='prediction')
+```
+
 ## Model3
 
 Find an equation that expresses SIMS as a function of ARM+GRIP
@@ -95,13 +103,38 @@ Find an equation that expresses SIMS as a function of ARM+GRIP
 
 ### Graphical Results
 
+```{r}
+plot(SIMS~ARM+GRIP,data=data)
+```
 
+This graph is shows as arm+grip strength increases, the sim score increases as well. There is a positive trend between arm+grip strength and sim score.
 
 ### Numerical Results
 
+```{r}
+cor(data$SIMS, data$GRIP)
+```
 
+We have a positive correlation, with noise(aka scatter).
 
 ### Inference
+
+```{r}
+Model3 = lm(SIMS~ARM+GRIP, data = data)
+print(summary(Model3))
+```
+
+```{r}
+plot(SIMS~ARM+GRIP,data=data)
+abline(Model3, col="blue")
+```
+
+The line in the data shows the best linear fit. For an increase of 1 in arm+grip strength, sim score increases by 0.0244.
+
+```{r}
+newdata = data.frame(ARM = 88, GRIP = 94)
+predict.lm(Model3, newdata, interval='prediction')
+```
 
 
 ## Conculsion
